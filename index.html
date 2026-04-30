@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coach Comercial FERCO 4x4</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --soft: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #0f172a;
+  --accent2: #e8381a;
+  --good: #166534; --goodbg: #dcfce7;
+  --mid: #92400e;  --midbg: #fef3c7;
+  --bad: #991b1b;  --badbg: #fee2e2;
+  --blue: #1e40af; --bluebg: #dbeafe;
+  --font: 'Inter', Arial, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── HEADER ─── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 38px; height: 38px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-icon svg { width: 20px; height: 20px; }
+
+.header-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+.header-title span { color: var(--accent2); }
+.header-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.status-pill {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--goodbg);
+  color: var(--good);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--good);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:0.4; }
+}
+
+/* ─── MAIN ─── */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 230px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 4px;
+  margin-bottom: 6px;
+  margin-top: 4px;
+}
+
+.cmd-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 2px;
+  transition: all 0.15s;
+  line-height: 1.35;
+}
+.cmd-btn:hover {
+  background: var(--soft);
+  border-color: var(--border);
+}
+.cmd-btn .cmd-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent2);
+  display: block;
+  margin-bottom: 1px;
+  font-weight: 500;
+}
+
+.divider { height: 1px; background: var(--border); margin: 10px 0; }
+
+.ind-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.ind-row:hover { background: var(--soft); color: var(--text); }
+.ind-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── CHAT AREA ─── */
+.chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+.messages::-webkit-scrollbar { width: 4px; }
+.messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─── WELCOME CARD ─── */
+.welcome-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 620px;
+  margin: 0 auto 8px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 20px 20px 0 0;
+}
+.welcome-card h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+.welcome-card h2 span { color: var(--accent2); }
+.welcome-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.welcome-card p strong { color: var(--text); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ─── MESSAGES ─── */
+.msg { display: flex; gap: 10px; max-width: 800px; animation: fadeUp 0.2s ease; }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.msg.user { flex-direction: row-reverse; margin-left: auto; }
+
+.msg.user .bubble {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 18px 4px 18px 18px;
+  border: none;
+}
+.msg.agent .bubble {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px 18px 18px 18px;
+  color: var(--text);
+}
+
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+.msg.agent .avatar { background: var(--accent); color: #fff; }
+.msg.user .avatar { background: var(--soft); border: 1px solid var(--border); color: var(--muted); font-size: 10px; }
+
+.bubble { padding: 12px 16px; font-size: 13.5px; line-height: 1.7; max-width: 660px; }
+.msg.user .bubble { font-weight: 500; }
+
+/* Markdown en bubble agent */
+.bubble h3 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent2);
+  margin: 14px 0 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.bubble h3:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.bubble strong { font-weight: 700; color: var(--text); }
+.bubble ul, .bubble ol { padding-left: 18px; margin: 6px 0; }
+.bubble li { margin-bottom: 5px; color: var(--text); }
+.bubble li::marker { color: var(--accent2); }
+.bubble p { margin-bottom: 8px; }
+.bubble p:last-child { margin-bottom: 0; }
+
+.bubble .highlight {
+  background: #fef9c3;
+  border-left: 3px solid #ca8a04;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.bubble .pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.bubble .pill.good { background: var(--goodbg); color: var(--good); }
+.bubble .pill.mid  { background: var(--midbg);  color: var(--mid);  }
+.bubble .pill.bad  { background: var(--badbg);  color: var(--bad);  }
+
+/* ─── TYPING ─── */
+.typing-bubble {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 14px 16px;
+}
+.typing-dot {
+  width: 6px; height: 6px;
+  background: var(--muted);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%,80%,100% { transform:translateY(0); opacity:0.4; }
+  40% { transform:translateY(-5px); opacity:1; }
+}
+
+/* ─── INPUT ─── */
+.input-area {
+  padding: 14px 20px 18px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  background: var(--soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(15,23,42,0.06);
+}
+textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  max-height: 140px;
+  min-height: 24px;
+}
+textarea::placeholder { color: var(--muted); }
+
+.send-btn {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.send-btn:hover { opacity: 0.85; }
+.send-btn:active { transform: scale(0.93); }
+.send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.send-btn svg { width: 16px; height: 16px; }
+
+.input-hint { font-size: 11px; color: var(--muted); margin-top: 8px; text-align: center; }
+
+@media (max-width: 680px) {
+  .sidebar { display: none; }
+  .welcome-card { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+        <polyline points="17 6 23 6 23 12"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-title">Coach Comercial <span>FERCO</span></div>
+      <div class="header-sub">Consultor de Gestión · Despliegue 4x4</div>
+    </div>
+  </div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    En línea
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Comandos rápidos</div>
+    <button class="cmd-btn" onclick="sendCommand('/venta baja')"><span class="cmd-tag">/venta baja</span>Protocolo venta baja</button>
+    <button class="cmd-btn" onclick="sendCommand('/conversion baja')"><span class="cmd-tag">/conversion baja</span>Bateador de Objeciones</button>
+    <button class="cmd-btn" onclick="sendCommand('/margen bajo')"><span class="cmd-tag">/margen bajo</span>Protocolo rentabilidad</button>
+    <button class="cmd-btn" onclick="sendCommand('/utilidad baja')"><span class="cmd-tag">/utilidad baja</span>Venta integral</button>
+    <button class="cmd-btn" onclick="sendCommand('/afluencia baja')"><span class="cmd-tag">/afluencia baja</span>Barrido de obras · PRO</button>
+    <button class="cmd-btn" onclick="sendCommand('/monto cotizado bajo')"><span class="cmd-tag">/monto cotizado bajo</span>Investigación · Pipeline</button>
+
+    <div class="divider"></div>
+    <div class="sidebar-label">Análisis</div>
+    <button class="cmd-btn" onclick="sendCommand('/analizar semana')"><span class="cmd-tag">/analizar semana</span>Enfoque semanal</button>
+    <button class="cmd-btn" onclick="sendCommand('/analizar mes')"><span class="cmd-tag">/analizar mes</span>Análisis mensual</button>
+    <button class="cmd-btn" onclick="sendCommand('/minuta')"><span class="cmd-tag">/minuta</span>Generar minuta</button>
+    <button class="cmd-btn" onclick="sendCommand('/plan de accion')"><span class="cmd-tag">/plan de accion</span>Plan de acción</button>
+
+    <div class="divider"></div>
+    <div class="sidebar-label">Herramientas</div>
+    <button class="cmd-btn" onclick="sendCommand('/roleplay objeciones')"><span class="cmd-tag">/roleplay objeciones</span>Práctica de cierres</button>
+    <button class="cmd-btn" onclick="sendCommand('/seguimiento salesforce')"><span class="cmd-tag">/seguimiento salesforce</span>Orientación Salesforce</button>
+
+    <div class="divider"></div>
+    <div class="sidebar-label">Indicadores</div>
+    <div class="ind-row" onclick="sendCommand('¿Cuál es el rango meta de conversión en FERCO?')">
+      <div class="ind-dot" style="background:#991b1b"></div><span>Conversión (meta 35-50%)</span>
+    </div>
+    <div class="ind-row" onclick="sendCommand('Explícame cómo interpretar la tasa de cotización')">
+      <div class="ind-dot" style="background:#92400e"></div><span>Tasa de cotización</span>
+    </div>
+    <div class="ind-row" onclick="sendCommand('¿Cómo analizo el monto cotizado?')">
+      <div class="ind-dot" style="background:#166534"></div><span>Monto cotizado</span>
+    </div>
+    <div class="ind-row" onclick="sendCommand('Explícame qué es CUF y cómo mejorarlo')">
+      <div class="ind-dot" style="background:#1e40af"></div><span>CUF</span>
+    </div>
+
+    <div style="flex:1"></div>
+    <div class="divider"></div>
+    <button class="cmd-btn" onclick="clearChat()" style="color:var(--muted)">
+      <span class="cmd-tag" style="color:#cbd5e1">/ limpiar</span>Nueva conversación
+    </button>
+  </aside>
+
+  <!-- CHAT -->
+  <div class="chat-area">
+    <div class="messages" id="messages">
+      <div class="welcome-card" id="welcomeCard">
+        <h2>Coach Comercial <span>FERCO</span></h2>
+        <p>
+          Soy tu consultor de gestión comercial. No voy a darte un análisis genérico —
+          voy a <strong>preguntarte, profundizar y hacerte reflexionar</strong> sobre tu gestión para que
+          llegues a las acciones correctas. Cuéntame qué está pasando en tu tienda.
+        </p>
+        <div class="chips">
+          <span class="chip" onclick="sendCommand('Mi venta está baja esta semana')">Venta baja</span>
+          <span class="chip" onclick="sendCommand('Mi conversión está por debajo de 35%')">Conversión baja</span>
+          <span class="chip" onclick="sendCommand('Hay poca afluencia en mi tienda')">Poca afluencia</span>
+          <span class="chip" onclick="sendCommand('Necesito una minuta de acción')">Generar minuta</span>
+          <span class="chip" onclick="sendCommand('Mi margen está bajo este mes')">Margen bajo</span>
+          <span class="chip" onclick="sendCommand('/roleplay objeciones')">Roleplay cierres</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea
+          id="userInput"
+          placeholder="Cuéntame qué está pasando en tu tienda…"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">Enter para enviar · Shift+Enter para nueva línea</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let conversationHistory = [];
+let isLoading = false;
+
+const SYSTEM_PROMPT = `Eres Coach Comercial FERCO 4x4, consultor de alto rendimiento para gerentes comerciales de FERCO Cerámica.
+
+## TU MODO DE OPERAR: CONSULTOR CONVERSACIONAL
+
+No eres un agente que dispara análisis completos de inmediato. Eres un consultor que PRIMERO pregunta, escucha y profundiza. Tu método es:
+
+1. Cuando el gerente menciona un problema, NO respondas con el análisis completo de entrada.
+2. Primero haz 1 o 2 preguntas clave para entender mejor la situación específica.
+3. Con la respuesta del gerente, profundiza más o ya da el diagnóstico.
+4. Usa las respuestas para hacer reflexionar al gerente sobre SU propia gestión.
+5. El gerente debe llegar a sus propias conclusiones guiado por tus preguntas.
+
+Ejemplo de cómo debes operar:
+- Gerente: "Mi venta está baja esta semana"
+- Coach: "Entiendo. Antes de analizar juntos, cuéntame: ¿sabes si el problema está en que entran pocos clientes, en que no estamos cotizando bien, o en que cotizamos pero no cerramos? ¿Tienes ese dato?"
+- (El gerente responde)
+- Coach: (profundiza o diagnostica según la respuesta)
+
+Esto crea una conversación real, no un reporte automático.
+
+## PREGUNTAS DE REFLEXIÓN GERENCIAL
+Cuando hagas preguntas, enfócalas en:
+- ¿Qué hizo el gerente personalmente para corregir esto?
+- ¿Cuándo fue la última vez que revisó X?
+- ¿Qué evidencia tiene de que su equipo está haciendo Y?
+- ¿Acompañó alguna llamada/negociación esta semana?
+- ¿Qué dice Salesforce sobre las oportunidades abiertas?
+
+## TONO Y ESTILO
+Profesional, directo, retador, motivador. Habla de tú al gerente.
+USA: "Revisa", "Valida", "Acompaña", "Audita", "Activa", "Define", "Corrige"
+EVITA: "Se recomienda", "Sería bueno", "Podría considerarse"
+
+## PRINCIPIO RECTOR
+El dato muestra el síntoma. La gestión del gerente revela la causa.
+
+## CUANDO DAR EL ANÁLISIS COMPLETO
+Cuando ya tienes suficiente contexto del gerente, usa esta estructura:
+1. **Diagnóstico** — qué está pasando realmente
+2. **Causa probable** — por qué está pasando (máx 3)
+3. **Reflexiones** — 3 preguntas que hagan pensar al gerente
+4. **Acciones prioritarias** — lista de máx 5 acciones concretas SIN fechas, ordenadas por prioridad
+5. **Compromiso de inspección** — qué revisar en Salesforce/Tableau/piso hoy
+6. **Minuta ejecutable** — resumen breve para cerrar
+
+## ACCIONES PRIORITARIAS (IMPORTANTE)
+Las acciones deben ser una lista priorizada SIN fechas. Ejemplo:
+▸ Revisar Top 25 oportunidades en Salesforce
+▸ Identificar las 3 con mayor probabilidad de cierre
+▸ Acompañar al asesor en la llamada de recuperación
+NO pongas fechas ni plazos en las acciones. Son para ejecutar YA.
+
+## SISTEMAS INTERNOS FERCO
+
+### Salesforce
+Gestiona: Cuentas, Oportunidades, Órdenes, Seguimientos, Próximos pasos.
+Regla de oro: "Si no hay compromiso claro con fecha en Salesforce, ahí está la fuga."
+
+### Tableau
+Consultar: Venta, Utilidad, Margen, YOY, Conversión, Montos.
+
+### Metodología Friedman
+Base para: Investigación, Apertura, Demostración, Objeciones, Cierre, Seguimiento.
+
+### Bateador de Objeciones
+Activar cuando: conversión baja, precio como objeción, cotizaciones sin cierre.
+Modelo: 1) Pregunta. 2) Empatiza. 3) Batea con beneficios.
+
+### Despliegue 4x4
+Formación continua del equipo. Activar ante bajo desempeño repetitivo.
+
+### Sistemas Integrales FERCO
+Ningún piso se vende solo: Adhesivo + Boquilla + Niveladores + Complementos.
+
+### Barrido de Obras
+Etapas: 1) Identificada. 2) Cotizada. 3) Especificada.
+Activar cuando afluencia está baja.
+
+## INDICADORES CLAVE
+- Conversión meta FERCO: 35%-50%. Si menor a 35%: urgente.
+- CUF: Clientes únicos facturados.
+- Monto Cotizado: pipeline comercial.
+- Tasa de Cotización: % visitantes que se convierten en oportunidad.
+
+## COMANDOS RÁPIDOS
+Cuando el gerente use un comando, responde con el protocolo correspondiente PERO siempre iniciando con una pregunta de contexto antes del análisis completo:
+/venta baja → protocolo venta baja
+/conversion baja → protocolo conversión + Bateador de Objeciones  
+/margen bajo → protocolo rentabilidad
+/utilidad baja → protocolo utilidad + venta integral
+/afluencia baja → barrido de obras + cartera PRO
+/monto cotizado bajo → investigación + pipeline
+/minuta → generar minuta ejecutable
+/plan de accion → plan de acción priorizado sin fechas
+/roleplay objeciones → simulación interactiva de Bateador de Objeciones
+/seguimiento salesforce → orientación revisión Salesforce
+/analizar semana → análisis semanal
+/analizar mes → análisis mensual
+
+## REGLAS FINALES
+- Máximo 5 acciones por respuesta, sin fechas, ordenadas por prioridad.
+- Nunca cierres sin una acción concreta.
+- No inventes datos. Si falta info, pregunta.
+- Responde siempre en español.
+- Mantén el estilo de conversación fluida, no de reporte formal.`;
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function scrollToBottom() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
+
+function clearChat() {
+  conversationHistory = [];
+  const m = document.getElementById('messages');
+  m.innerHTML = '';
+  const wc = document.createElement('div');
+  wc.className = 'welcome-card';
+  wc.id = 'welcomeCard';
+  wc.innerHTML = `
+    <h2>Coach Comercial <span>FERCO</span></h2>
+    <p>Soy tu consultor de gestión comercial. No voy a darte un análisis genérico — voy a <strong>preguntarte, profundizar y hacerte reflexionar</strong> sobre tu gestión. Cuéntame qué está pasando en tu tienda.</p>
+    <div class="chips">
+      <span class="chip" onclick="sendCommand('Mi venta está baja esta semana')">Venta baja</span>
+      <span class="chip" onclick="sendCommand('Mi conversión está por debajo de 35%')">Conversión baja</span>
+      <span class="chip" onclick="sendCommand('Hay poca afluencia en mi tienda')">Poca afluencia</span>
+      <span class="chip" onclick="sendCommand('Necesito una minuta de acción')">Generar minuta</span>
+      <span class="chip" onclick="sendCommand('Mi margen está bajo este mes')">Margen bajo</span>
+      <span class="chip" onclick="sendCommand('/roleplay objeciones')">Roleplay cierres</span>
+    </div>`;
+  m.appendChild(wc);
+}
+
+function renderMarkdown(text) {
+  return text
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^# (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/▸ (.+)$/gm, '<li>$1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>(\n|$))+/gs, m => `<ul>${m}</ul>`)
+    .replace(/^> (.+)$/gm, '<div class="highlight">$1</div>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+}
+
+function addMessage(role, content) {
+  const wc = document.getElementById('welcomeCard');
+  if (wc) wc.remove();
+  const m = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.innerHTML = role === 'agent' ? 'FC' : 'GR';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  if (role === 'agent') {
+    bubble.innerHTML = `<p>${renderMarkdown(content)}</p>`;
+  } else {
+    bubble.textContent = content;
+  }
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  m.appendChild(div);
+  scrollToBottom();
+}
+
+function addTyping() {
+  const wc = document.getElementById('welcomeCard');
+  if (wc) wc.remove();
+  const m = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg agent';
+  div.id = 'typingIndicator';
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.innerHTML = 'FC';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = `<div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  m.appendChild(div);
+  scrollToBottom();
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+async function sendCommand(cmd) {
+  document.getElementById('userInput').value = cmd;
+  await sendMessage();
+}
+
+async function sendMessage() {
+  if (isLoading) return;
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  isLoading = true;
+  document.getElementById('sendBtn').disabled = true;
+  addMessage('user', text);
+  conversationHistory.push({ role: 'user', content: text });
+  addTyping();
+
+  try {
+    const response = await fetch('/.netlify/functions/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || 'Error en la API');
+
+    const reply = data.content[0]?.text || 'No se pudo obtener respuesta.';
+    removeTyping();
+    addMessage('agent', reply);
+    conversationHistory.push({ role: 'assistant', content: reply });
+    if (conversationHistory.length > 40) conversationHistory = conversationHistory.slice(-40);
+
+  } catch (err) {
+    removeTyping();
+    addMessage('agent', `Error de conexión: ${err.message}`);
+  }
+
+  isLoading = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+document.getElementById('userInput').focus();
+</script>
+</body>
+</html>
